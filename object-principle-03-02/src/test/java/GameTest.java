@@ -23,7 +23,7 @@ class GameTest {
                 "당신은 [언덕]에 있습니다.",
                 "저 멀리 성이 보이고 언덕 아래로 좁은 길이 나 있습니다.",
                 "다음 명령어를 사용할 수 있습니다.",
-                "go {north|east|south|west} - 이동, quit - 게임 종료",
+                "go {north|east|south|west} - 이동, look - 보기, help - 도움말, quit - 게임 종료",
                 "> ",
                 "게임을 종료합니다.");
     }
