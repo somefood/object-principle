@@ -8,6 +8,9 @@
     <artifactId>object-principle</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <modules>
+        <module>object-principle-02-01</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>23</maven.compiler.source>
