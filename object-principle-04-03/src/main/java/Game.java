@@ -1,28 +1,26 @@
 import java.util.Scanner;
 
 public class Game {
-    private int width, height;
+    private Size size;
     private Room[] rooms;
-    private int x, y;
+    private Position position;
     private boolean running;
 
     public Game() {
-        this.x = 0;
-        this.y = 2;
-        this.width = 2;
-        this.height = 3;
+        this.position = Position.of(0, 2);
+        this.size = Size.with(2, 3);
         this.rooms = arrangeRooms(
-                new Room(0, 0, "샘", "아름다운 샘물이 흐르는 곳입니다. 이곳에서 휴식을 취할 수 있습니다."),
-                new Room(0, 1, "다리", "큰 강 위에 돌로 만든 커다란 다리가 있습니다."),
-                new Room(1, 1, "성", "용왕이 살고 있는 성에 도착했습니다."),
-                new Room(0, 2, "언덕", "저 멀리 성이 보이고 언덕 아래로 좁은 길이 나 있습니다."),
-                new Room(1, 2, "동굴", "어둠에 잠긴 동굴 안에 작은 화톳불이 피어 있습니다."));
+                new Room(Position.of(0, 0), "샘", "아름다운 샘물이 흐르는 곳입니다. 이곳에서 휴식을 취할 수 있습니다."),
+                new Room(Position.of(0, 1), "다리", "큰 강 위에 돌로 만든 커다란 다리가 있습니다."),
+                new Room(Position.of(1, 1), "성", "용왕이 살고 있는 성에 도착했습니다."),
+                new Room(Position.of(0, 2), "언덕", "저 멀리 성이 보이고 언덕 아래로 좁은 길이 나 있습니다."),
+                new Room(Position.of(1, 2), "동굴", "어둠에 잠긴 동굴 안에 작은 화톳불이 피어 있습니다."));
     }
 
     private Room[] arrangeRooms(Room ... rooms) {
-        Room[] result = new Room[width * height];
+        Room[] result = new Room[size.area()];
         for(var room : rooms) {
-            result[room.x() + room.y() * width] = room;
+            result[size.indexOf(room.position())] = room;
         }
         return result;
     }
@@ -44,8 +42,8 @@ public class Game {
     }
 
     private void showRoom() {
-        System.out.println("당신은 [" + roomAt(x, y).name() + "]에 있습니다.");
-        System.out.println(roomAt(x, y).description());
+        System.out.println("당신은 [" + roomAt(position).name() + "]에 있습니다.");
+        System.out.println(roomAt(position).description());
     }
 
     private void showHelp() {
@@ -93,10 +91,10 @@ public class Game {
         switch (commands[0]) {
             case "go" -> {
                 switch (commands[1]) {
-                    case "north" -> moveNorth();
-                    case "south" -> moveSouth();
-                    case "east" -> moveEast();
-                    case "west" -> moveWest();
+                    case "north" -> tryMove(Direction.NORTH);
+                    case "south" -> tryMove(Direction.SOUTH);
+                    case "east" -> tryMove(Direction.EAST);
+                    case "west" -> tryMove(Direction.WEST);
                     default -> showUnknownCommand();
                 }
             }
@@ -105,22 +103,6 @@ public class Game {
             case "quit" -> stop();
             default -> showUnknownCommand();
         }
-    }
-
-    private void moveWest() {
-        tryMove( -1, 0);
-    }
-
-    private void moveEast() {
-        tryMove(1, 0);
-    }
-
-    private void moveSouth() {
-        tryMove(0, 1);
-    }
-
-    private void moveNorth() {
-        tryMove(0, -1);
     }
 
     private void showUnknownCommand() {
@@ -135,25 +117,24 @@ public class Game {
         System.out.print("> ");
     }
 
-    private void tryMove(int incX, int incY) {
-        if (isBlocked(x + incX, y + incY)) {
+    private void tryMove(Direction direction) {
+        if (isBlocked(position.shift(direction))) {
             showBlocked();
         } else {
-            this.x += incX;
-            this.y += incY;
+            this.position = position.shift(direction);
             showRoom();
         }
     }
 
-    private boolean isBlocked(int x, int y) {
-        return isExcluded(x, y) || roomAt(x, y) == null;
+    private boolean isBlocked(Position position) {
+        return isExcluded(position) || roomAt(position) == null;
     }
 
-    private boolean isExcluded(int x, int y) {
-        return x < 0 || x >= width || y < 0 || y >= height;
+    private boolean isExcluded(Position position) {
+        return !size.contains(position);
     }
 
-    private Room roomAt(int x, int y) {
-        return rooms[x + y * width];
+    private Room roomAt(Position position) {
+        return rooms[size.indexOf(position)];
     }
 }

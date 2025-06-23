@@ -1,11 +1,10 @@
 public class Room {
-    private int x, y;
+    private Position position;
     private String name;
     private String description;
 
-    public Room(int x, int y, String name, String description) {
-        this.x = x;
-        this.y = y;
+    public Room(Position position, String name, String description) {
+        this.position = position;
         this.name = name;
         this.description = description;
     }
@@ -19,10 +18,14 @@ public class Room {
     }
 
     public int x() {
-        return x;
+        return position().x();
     }
 
     public int y() {
-        return y;
+        return position().y();
+    }
+
+    public Position position() {
+        return Position.of(position.x(), position.y());
     }
 }
