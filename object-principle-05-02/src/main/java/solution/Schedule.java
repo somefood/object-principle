@@ -1,4 +1,4 @@
-package problem;
+package solution;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
