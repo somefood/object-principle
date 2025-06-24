@@ -1,9 +1,8 @@
-import java.util.Scanner;
-
 public class Game {
     private Player player;
     private CommandParser commandParser;
     private boolean running;
+    private Console console;
 
     public Game() {
         this.player = new Player(
@@ -18,6 +17,7 @@ public class Game {
                 Position.of(0, 2)
         );
         this.commandParser = new CommandParser();
+        this.console = new Console();
     }
 
     public void run() {
@@ -43,15 +43,13 @@ public class Game {
     }
 
     private void farewell() {
-        System.out.println("\n게임을 종료합니다.");
+        console.showLine("\n게임을 종료합니다.");
     }
     
     private void play() {
-        Scanner scanner = new Scanner(System.in);
-
         start();
         while (isRunning()) {
-            String input = inputCommand(scanner);
+            String input = inputCommand();
             Command command = commandParser.parseCommand(input);
             executeCommand(command);
         }
@@ -77,9 +75,9 @@ public class Game {
         showBlocked();
     }
 
-    private String inputCommand(Scanner scanner) {
+    private String inputCommand() {
         showPrompt();
-        return input(scanner);
+        return input();
     }
 
     private void start() {
@@ -98,12 +96,12 @@ public class Game {
         System.out.println("이해할 수 없는 명령어입니다.");
     }
 
-    private String input(Scanner scanner) {
-        return scanner.nextLine();
+    private String input() {
+        return console.input();
     }
 
     private void showPrompt() {
-        System.out.print("> ");
+        console.show("> ");
     }
 
     private void showBlocked() {
