@@ -1,3 +1,5 @@
+package problem;
+
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
