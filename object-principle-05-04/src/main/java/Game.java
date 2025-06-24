@@ -1,11 +1,13 @@
 import java.util.Scanner;
 
 public class Game {
+    private CommandParser commandParser;
     private WorldMap worldMap;
     private Position position;
     private boolean running;
 
     public Game() {
+        this.commandParser = new CommandParser();
         this.position = Position.of(0, 2);
         this.worldMap = new WorldMap(
                 Size.with(2, 3),
@@ -33,12 +35,12 @@ public class Game {
         System.out.println("환영합니다!");
     }
 
-    private void showRoom() {
+    public void showRoom() {
         System.out.println("당신은 [" + worldMap.roomAt(position).name() + "]에 있습니다.");
         System.out.println(worldMap.roomAt(position).description());
     }
 
-    private void showHelp() {
+    public void showHelp() {
         System.out.println("다음 명령어를 사용할 수 있습니다.");
         System.out.println("go {north|east|south|west} - 이동, look - 보기, help - 도움말, quit - 게임 종료");
     }
@@ -57,7 +59,18 @@ public class Game {
         start();
         while (isRunning()) {
             String input = inputCommand(scanner);
-            parseCommand(input);
+            Command command = commandParser.parseCommand(input);
+            executeCommand(command);
+        }
+    }
+
+    private void executeCommand(Command command) {
+        switch (command) {
+            case Command.Move move -> tryMove(move.direction());
+            case Command.Look() -> showRoom();
+            case Command.Help() -> showHelp();
+            case Command.Quit() -> stop();
+            case Command.Unknown() -> showUnknownCommand();
         }
     }
 
@@ -74,30 +87,11 @@ public class Game {
         return running;
     }
 
-    private void stop() {
+    public void stop() {
         this.running = false;
     }
 
-    private void parseCommand(String input) {
-        String[] commands = input.toLowerCase().trim().split("\\s+");
-        switch (commands[0]) {
-            case "go" -> {
-                switch (commands[1]) {
-                    case "north" -> tryMove(Direction.NORTH);
-                    case "south" -> tryMove(Direction.SOUTH);
-                    case "east" -> tryMove(Direction.EAST);
-                    case "west" -> tryMove(Direction.WEST);
-                    default -> showUnknownCommand();
-                }
-            }
-            case "look" -> showRoom();
-            case "help" -> showHelp();
-            case "quit" -> stop();
-            default -> showUnknownCommand();
-        }
-    }
-
-    private void showUnknownCommand() {
+    public void showUnknownCommand() {
         System.out.println("이해할 수 없는 명령어입니다.");
     }
 
@@ -109,7 +103,7 @@ public class Game {
         System.out.print("> ");
     }
 
-    private void tryMove(Direction direction) {
+    public void tryMove(Direction direction) {
         if (worldMap.isBlocked(position.shift(direction))) {
             showBlocked();
         } else {
