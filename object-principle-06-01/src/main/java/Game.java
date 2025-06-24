@@ -68,11 +68,10 @@ public class Game {
     }
 
     private void tryMove(Direction direction) {
-        if (player.worldMap().isBlocked(player.position().shift(direction))) {
-            showBlocked();
-        } else {
-            player.move(player.position().shift(direction));
+        if (player.move(direction)) {
             showRoom();
+        } else {
+            showBlocked();
         }
     }
 
@@ -110,7 +109,8 @@ public class Game {
     }
 
     public void showRoom() {
-        System.out.println("당신은 [" + player.worldMap().roomAt(player.position()).name() + "]에 있습니다.");
-        System.out.println(player.worldMap().roomAt(player.position()).description());
+        System.out.println("당신은 [" + player.currentRoom().name() + "]에 있습니다.");
+        System.out.println(player.currentRoom().description());
     }
+
 }

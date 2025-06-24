@@ -13,7 +13,7 @@ public class PlayerTest {
                 new Room(Position.of(1, 1), "(1,1)", "방 (1,1)"));
         Player player = new Player(worldMap, Position.of(0, 0));
 
-        player.move(Position.of(1, 0));
+        assertThat(player.move(Direction.EAST)).isTrue();
         assertThat(player.position()).isEqualTo(Position.of(1,0));
     }
 }

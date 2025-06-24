@@ -7,9 +7,13 @@ public class Player {
         this.worldMap = worldMap;
         this.position = position;
     }
-
-    public void move(Position position) {
-        this.position = position;
+    
+    public boolean move(Direction direction) {
+        if (worldMap.isBlocked(position.shift(direction))) {
+            return false;
+        }
+        this.position = this.position().shift(direction);
+        return true;
     }
 
     public WorldMap worldMap() {
@@ -18,5 +22,9 @@ public class Player {
 
     public Position position() {
         return position;
+    }
+
+    public Room currentRoom() {
+        return worldMap.roomAt(position);
     }
 }
