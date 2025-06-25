@@ -1,10 +1,11 @@
 import java.util.List;
 
 public class CallCollector {
-    private CsvReader reader;
 
-    public CallCollector() {
-        this.reader = new CsvReader("calls.csv");
+    private final Reader reader;
+
+    public CallCollector(Reader reader) {
+        this.reader = reader;
     }
 
     public CallHistory collect(String phone) {

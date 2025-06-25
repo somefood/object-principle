@@ -5,13 +5,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CsvReader {
+public class CsvReader implements Reader {
+
     private String path;
 
     public CsvReader(String path) {
         this.path = path;
     }
 
+    @Override
     public List<Call> read() {
         List<String> lines = readLines(path);
         return parse(lines);

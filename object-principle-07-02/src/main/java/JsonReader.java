@@ -8,10 +8,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JsonReader {
+public class JsonReader implements Reader {
 
     private String path;
 
+    public JsonReader(String path) {
+        this.path = path;
+    }
+
+    @Override
     public List<Call> read() {
         List<String> lines = readLines(path);
         return parse(lines);
