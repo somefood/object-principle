@@ -19,15 +19,7 @@ public class Room {
         return description;
     }
 
-    public int x() {
-        return position().x();
-    }
-
-    public int y() {
-        return position().y();
-    }
-
     public Position position() {
-        return Position.of(position.x(), position.y());
+        return position;
     }
 }

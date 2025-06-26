@@ -4,7 +4,7 @@ public class WorldMap {
     private Size size;
     private Room[] rooms;
 
-    public WorldMap(Size area, Room ... rooms) {
+    public WorldMap(Size area, Room... rooms) {
         this.size = area;
         this.rooms = new Room[size.area()];
         for(Room room : rooms) {

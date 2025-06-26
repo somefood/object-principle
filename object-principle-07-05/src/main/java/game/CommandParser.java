@@ -1,7 +1,6 @@
 package game;
 
 public class CommandParser {
-
     public Command parseCommand(String input) {
         return parseCommand(split(input));
     }
@@ -23,7 +22,7 @@ public class CommandParser {
         };
     }
 
-    private static String[] split(String input) {
+    private String[] split(String input) {
         return input.toLowerCase().trim().split("\\s+");
     }
 }

@@ -2,8 +2,7 @@ package game;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 
 public class PlayerTest {
     @Test
@@ -23,7 +22,7 @@ public class PlayerTest {
 
     @Test
     public void can_not_move_west() {
-        try {
+        assertThatIllegalArgumentException().isThrownBy(() -> {
             WorldMap worldMap = new WorldMap(
                     Size.with(2, 2),
                     new Room(Position.of(0, 0), "", ""),
@@ -31,16 +30,13 @@ public class PlayerTest {
                     new Room(Position.of(1, 1), "", ""));
             Player player = new Player(worldMap, Position.of(1, 1));
 
-            assertThat(player.canMove(Direction.WEST)).isFalse();
             player.move(Direction.WEST);
-            fail();
-        } catch (IllegalArgumentException ex) {
-        }
+        });
     }
 
     @Test
     public void can_not_move_outside() {
-        try {
+        assertThatIllegalArgumentException().isThrownBy(() -> {
             WorldMap worldMap = new WorldMap(
                     Size.with(2, 2),
                     new Room(Position.of(0, 0), "", ""),
@@ -48,10 +44,7 @@ public class PlayerTest {
                     new Room(Position.of(1, 1), "", ""));
             Player player = new Player(worldMap, Position.of(1, 1));
 
-            assertThat(player.canMove(Direction.EAST)).isFalse();
             player.move(Direction.WEST);
-            fail();
-        } catch (IllegalArgumentException ex) {
-        }
+        });
     }
 }

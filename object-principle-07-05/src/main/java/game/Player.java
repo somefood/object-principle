@@ -1,7 +1,6 @@
 package game;
 
 public class Player {
-    
     private WorldMap worldMap;
     private Position position;
 
@@ -16,17 +15,13 @@ public class Player {
 
     public void move(Direction direction) {
         if (!canMove(direction)) {
-            throw new IllegalStateException();
+            throw new IllegalArgumentException();
         }
 
         this.position = this.position.shift(direction);
     }
 
-    public WorldMap worldMap() {
-        return worldMap;
-    }
-
-    public Position position() {
+    Position position() {
         return position;
     }
 
