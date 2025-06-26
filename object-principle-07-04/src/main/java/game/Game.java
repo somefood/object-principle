@@ -1,10 +1,14 @@
+package game;
+
+import console.Console;
+
 public class Game {
     private Player player;
     private CommandParser commandParser;
     private boolean running;
-    private Console console;
+    private final InputOutput inputOutput;
 
-    public Game() {
+    public Game(Console inputOutput) {
         this.player = new Player(
                 new WorldMap(
                         Size.with(2, 3),
@@ -17,7 +21,7 @@ public class Game {
                 Position.of(0, 2)
         );
         this.commandParser = new CommandParser();
-        this.console = new Console();
+        this.inputOutput = inputOutput;
     }
 
     public void run() {
@@ -43,7 +47,7 @@ public class Game {
     }
 
     private void farewell() {
-        console.showLine("\n게임을 종료합니다.");
+        inputOutput.showLine("\n게임을 종료합니다.");
     }
     
     private void play() {
@@ -97,11 +101,11 @@ public class Game {
     }
 
     private String input() {
-        return console.input();
+        return inputOutput.input();
     }
 
     private void showPrompt() {
-        console.show("> ");
+        inputOutput.show("> ");
     }
 
     private void showBlocked() {

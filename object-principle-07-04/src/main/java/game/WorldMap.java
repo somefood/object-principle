@@ -1,3 +1,5 @@
+package game;
+
 public class WorldMap {
     private Size size;
     private Room[] rooms;

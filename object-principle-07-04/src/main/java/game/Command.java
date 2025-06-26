@@ -1,3 +1,5 @@
+package game;
+
 public sealed interface Command {
     
     record Move(Direction direction) implements Command {}

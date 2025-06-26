@@ -1,3 +1,5 @@
+package game;
+
 public class Room {
     private Position position;
     private String name;
