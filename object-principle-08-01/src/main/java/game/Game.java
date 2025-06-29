@@ -1,15 +1,20 @@
 package game;
 
+import game.command.Command;
+import game.command.CommandParser;
+
+import java.util.stream.Collectors;
+
 public class Game {
-    private final Player player;
-    private final CommandParser commandParser;
-    private final InputOutput inputOutput;
+    private Player player;
+    private CommandParser commandParser;
+    private InputOutput io;
     private boolean running;
 
     public Game(Player player, CommandParser commandParser, InputOutput io) {
         this.player = player;
         this.commandParser = commandParser;
-        this.inputOutput = io;
+        this.io = io;
     }
 
     public void run() {
@@ -25,19 +30,18 @@ public class Game {
     }
 
     private void showGreetings() {
-        System.out.println("환영합니다!");
+        io.showLine("환영합니다!");
     }
-    
 
-    public void showHelp() {
-        System.out.println("다음 명령어를 사용할 수 있습니다.");
-        System.out.println("go {north|east|south|west} - 이동, look - 보기, help - 도움말, quit - 게임 종료");
+    private void showHelp() {
+        io.showLine("다음 명령어를 사용할 수 있습니다.");
+        io.showLine("go {north|east|south|west} - 이동, look - 보기, help - 도움말, quit - 게임 종료");
     }
 
     private void farewell() {
-        inputOutput.showLine("\n게임을 종료합니다.");
+        io.showLine("\n게임을 종료합니다.");
     }
-    
+
     private void play() {
         start();
         while (isRunning()) {
@@ -48,12 +52,15 @@ public class Game {
     }
 
     private void executeCommand(Command command) {
-        switch (command) {
+        switch(command) {
             case Command.Move move -> tryMove(move.direction());
             case Command.Look() -> showRoom();
             case Command.Help() -> showHelp();
             case Command.Quit() -> stop();
             case Command.Unknown() -> showUnknownCommand();
+            case Command.Inventory() -> showInventory();
+            case Command.Take take -> takeItem(take.item());
+            case Command.Drop drop -> dropItem(drop.item());
         }
     }
 
@@ -63,8 +70,26 @@ public class Game {
             showRoom();
             return;
         }
-        
+
         showBlocked();
+    }
+
+    private void showBlocked() {
+        io.showLine("이동할 수 없습니다.");
+    }
+
+    private void showRoom() {
+        io.showLine("당신은 [" + player.currentRoom().name() + "]에 있습니다.");
+        io.showLine(player.currentRoom().description());
+        if (!player.currentRoom().items().isEmpty()) {
+            io.showLine(player.currentRoom().items().stream()
+                    .map(Item::name)
+                    .collect(Collectors.joining(", ", "아이템: [ ", " ]")));
+        }
+    }
+
+    private boolean isRunning() {
+        return running == true;
     }
 
     private String inputCommand() {
@@ -75,34 +100,50 @@ public class Game {
     private void start() {
         running = true;
     }
-    
-    private boolean isRunning() {
-        return running;
-    }
 
-    public void stop() {
+    private void stop() {
         this.running = false;
     }
 
-    public void showUnknownCommand() {
-        System.out.println("이해할 수 없는 명령어입니다.");
+    private void showUnknownCommand() {
+        io.showLine("이해할 수 없는 명령어입니다.");
     }
 
     private String input() {
-        return inputOutput.input();
+        return io.input();
     }
 
     private void showPrompt() {
-        inputOutput.show("> ");
+        io.show("> ");
     }
 
-    private void showBlocked() {
-        System.out.println("이동할 수 없습니다.");
+    private void takeItem(String itemName) {
+        transfer(player.currentRoom(), player, itemName,
+                itemName + "을(를) 얻었습니다.",
+                itemName + "을(를) 얻을 수 없습니다.");
     }
 
-    public void showRoom() {
-        System.out.println("당신은 [" + player.currentRoom().name() + "]에 있습니다.");
-        System.out.println(player.currentRoom().description());
+    private void dropItem(String itemName) {
+        transfer(player, player.currentRoom(), itemName,
+                itemName + "을(를) 버렸습니다.",
+                itemName + "을(를) 버릴 수 없습니다.");
     }
 
+
+    private void transfer(Player source, Player target, String itemName, String success, String fail) {
+        source.find(itemName).ifPresentOrElse(
+                item -> {
+                    source.remove(item);
+                    target.add(item);
+                    io.showLine(success);
+                },
+                () -> io.showLine(fail));
+    }
+
+    private void showInventory() {
+        io.showLine(
+                player.items().stream()
+                        .map(Item::name)
+                        .collect(Collectors.joining(", ", "인벤토리 목록: [ ", " ]")));
+    }
 }
