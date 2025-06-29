@@ -1,4 +1,4 @@
-package game;
+package game.worldmap;
 
 public class Size {
     private int width, height;

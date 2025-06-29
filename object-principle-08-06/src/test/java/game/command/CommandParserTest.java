@@ -1,7 +1,6 @@
-package game;
+package game.command;
 
-import game.command.Command;
-import game.command.CommandParser;
+import game.worldmap.Direction;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

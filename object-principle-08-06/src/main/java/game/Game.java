@@ -2,6 +2,10 @@ package game;
 
 import game.command.Command;
 import game.command.CommandParser;
+import game.item.Carrier;
+import game.item.Item;
+import game.player.Player;
+import game.worldmap.Direction;
 
 import java.util.stream.Collectors;
 
@@ -129,15 +133,16 @@ public class Game {
                 itemName + "을(를) 버릴 수 없습니다.");
     }
 
+    private void transfer(Carrier source, Carrier target,
+                          String itemName, String success, String fail) {
+        Transfer transfer = new Transfer(source, target, itemName);
+        if (transfer.isPossible()) {
+            transfer.transfer();
+            io.showLine(success);
+            return;
+        }
 
-    private void transfer(Player source, Player target, String itemName, String success, String fail) {
-        source.find(itemName).ifPresentOrElse(
-                item -> {
-                    source.remove(item);
-                    target.add(item);
-                    io.showLine(success);
-                },
-                () -> io.showLine(fail));
+        io.showLine(fail);
     }
 
     private void showInventory() {

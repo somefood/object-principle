@@ -1,6 +1,6 @@
 package game.command;
 
-import game.Direction;
+import game.worldmap.Direction;
 
 public class CommandParser {
     public Command parseCommand(String input) {
