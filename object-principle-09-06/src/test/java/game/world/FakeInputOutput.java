@@ -1,11 +1,12 @@
 package game.world;
 
-import game.InputOutput;
+import game.Input;
+import game.Output;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class FakeInputOutput implements InputOutput {
+public class FakeInputOutput implements Input, Output {
     int currentInput;
     private List<String> inputs;
     private StringBuilder outputs;

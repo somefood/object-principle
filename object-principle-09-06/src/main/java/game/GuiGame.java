@@ -1,22 +1,16 @@
 package game;
 
-import game.command.Command;
-import game.command.CommandParser;
-import game.world.World;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-public class GuiGame extends JFrame implements ActionListener, InputOutput {
+public class GuiGame extends JFrame implements GameLoop, ActionListener, Output {
     private JTextArea display;
     private JTextField input;
     private JButton enter;
-
-    private World world;
-    private CommandParser commandParser;
+    private Game game;
 
     public GuiGame() {
         super("텍스트 어드벤처 게임");
@@ -35,13 +29,6 @@ public class GuiGame extends JFrame implements ActionListener, InputOutput {
         setLayout(new BorderLayout());
     }
 
-    private void buildDisplay() {
-        display = new JTextArea();
-        display.setEditable(false);
-        display.setLineWrap(true);
-        add(new JScrollPane(display), BorderLayout.CENTER);
-    }
-
     private void buildInput() {
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
@@ -56,71 +43,37 @@ public class GuiGame extends JFrame implements ActionListener, InputOutput {
         input.addActionListener(this::actionPerformed);
     }
 
-    public void initialize(World world, CommandParser parser) {
-        this.world = world;
-        this.commandParser = parser;
+    private void buildDisplay() {
+        display = new JTextArea();
+        display.setEditable(false);
+        display.setLineWrap(true);
+        add(new JScrollPane(display), BorderLayout.CENTER);
     }
 
-    public void run() {
-        welcome();
-        play();
+    public void run(Game game) {
+        this.game = game;
+        this.game.initialize(this);
+        this.game.run();
     }
 
-    private void welcome() {
-        showGreetings();
-        world.showRoom();
-        showHelp();
-    }
-
-    private void showGreetings() {
-        showLine("환영합니다!");
-    }
-
-    private void farewell() {
-        showLine("\n게임을 종료합니다.");
-    }
-
-    private void play() {
+    @Override
+    public void play() {
         showLine("");
         setVisible(true);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        Command command = commandParser.parseCommand(input.getText());
-        executeCommand(command);
-        showLine("");
-        display.setCaretPosition(display.getDocument().getLength());
-        input.setText("");
-    }
-
-    private void executeCommand(Command command) {
-        switch(command) {
-            case Command.Move move -> world.tryMove(move.direction());
-            case Command.Look() -> world.showRoom();
-            case Command.Help() -> showHelp();
-            case Command.Quit() -> stop();
-            case Command.Unknown() -> showUnknownCommand();
-            case Command.Inventory() -> world.showInventory();
-            case Command.Take take -> world.takeItem(take.item());
-            case Command.Drop drop -> world.dropItem(drop.item());
-            case Command.Destroy destroy -> world.destroyItem(destroy.item());
-            case Command.Throw aThrow -> world.throwItem(aThrow.item());
-        }
-    }
-
-    private void stop() {
-        farewell();
+    public void stop() {
         new Timer(1000,
                 event -> dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING))).start();
     }
 
-    private void showHelp() {
-        showLine(commandParser.help());
-    }
-
-    private void showUnknownCommand() {
-        showLine("이해할 수 없는 명령어입니다.");
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        game.executeCommand(input.getText());
+        showLine("");
+        display.setCaretPosition(display.getDocument().getLength());
+        input.setText("");
     }
 
     @Override
@@ -131,11 +84,5 @@ public class GuiGame extends JFrame implements ActionListener, InputOutput {
     @Override
     public void show(String text) {
         display.append(text);
-    }
-
-    // 불필요한 메서드
-    @Override
-    public String input() {
-        return "";
     }
 }

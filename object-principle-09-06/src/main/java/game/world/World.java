@@ -1,6 +1,6 @@
 package game.world;
 
-import game.InputOutput;
+import game.Output;
 import game.world.item.Carrier;
 import game.world.item.Item;
 import game.world.item.Source;
@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class World {
     private Player player;
-    private InputOutput io;
+    private Output io;
 
-    public World(Player player, InputOutput io) {
+    public World(Player player, Output io) {
         this.player = player;
         this.io = io;
     }

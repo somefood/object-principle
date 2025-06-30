@@ -1,9 +1,6 @@
 package game;
 
-public interface InputOutput {
-    String input();
-
+public interface Output {
     void showLine(String text);
-
     void show(String text);
 }

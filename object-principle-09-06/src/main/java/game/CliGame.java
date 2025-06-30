@@ -1,63 +1,34 @@
 package game;
 
-import game.command.Command;
-import game.command.CommandParser;
-import game.world.World;
-
-public class CliGame {
-    private World world;
-    private CommandParser commandParser;
-    private InputOutput io;
+public class CliGame implements GameLoop {
+    private Game game;
+    private Input input;
+    private Output output;
     private boolean running;
 
-    public CliGame(World world, CommandParser commandParser, InputOutput io) {
-        this.world = world;
-        this.commandParser = commandParser;
-        this.io = io;
+    public CliGame(Game game, Input input, Output output) {
+        this.game = game;
+        this.game.initialize(this);
+        this.input = input;
+        this.output = output;
     }
 
     public void run() {
-        welcome();
-        play();
-        farewell();
+        game.run();
     }
 
-    private void welcome() {
-        showGreetings();
-        world.showRoom();
-        showHelp();
-    }
-
-    private void showGreetings() {
-        io.showLine("환영합니다!");
-    }
-
-    private void farewell() {
-        io.showLine("\n게임을 종료합니다.");
-    }
-
-    private void play() {
+    @Override
+    public void play() {
         start();
         while (isRunning()) {
             String input = inputCommand();
-            Command command = commandParser.parseCommand(input);
-            executeCommand(command);
+            game.executeCommand(input);
         }
     }
 
-    private void executeCommand(Command command) {
-        switch(command) {
-            case Command.Move move -> world.tryMove(move.direction());
-            case Command.Look() -> world.showRoom();
-            case Command.Help() -> showHelp();
-            case Command.Quit() -> stop();
-            case Command.Unknown() -> showUnknownCommand();
-            case Command.Inventory() -> world.showInventory();
-            case Command.Take take -> world.takeItem(take.item());
-            case Command.Drop drop -> world.dropItem(drop.item());
-            case Command.Destroy destroy -> world.destroyItem(destroy.item());
-            case Command.Throw aThrow -> world.throwItem(aThrow.item());
-        }
+    @Override
+    public void stop() {
+        this.running = false;
     }
 
     private boolean isRunning() {
@@ -73,23 +44,11 @@ public class CliGame {
         running = true;
     }
 
-    private void stop() {
-        this.running = false;
-    }
-
     private String input() {
-        return io.input();
+        return input.input();
     }
 
     private void showPrompt() {
-        io.show("> ");
-    }
-
-    private void showHelp() {
-        io.showLine(commandParser.help());
-    }
-
-    private void showUnknownCommand() {
-        io.showLine("이해할 수 없는 명령어입니다.");
+        output.show("> ");
     }
 }

@@ -1,6 +1,7 @@
 import console.Console;
 import game.CliGame;
-import game.InputOutput;
+import game.Game;
+import game.Output;
 import game.world.World;
 import game.command.CommandParser;
 import game.world.item.Inventory;
@@ -13,7 +14,7 @@ import game.world.worldmap.WorldMap;
 
 public class CliMain {
     public static void main(String[] args) {
-        InputOutput io = new Console();
+        Console io = new Console();
         CommandParser commandParser = new CommandParser(io);
         World world = new World(
                 new Player(
@@ -27,7 +28,7 @@ public class CliMain {
                         Position.of(0, 2)),
                 io);
 
-        CliGame game = new CliGame(world, commandParser, io);
-        game.run();
+        Game game = new Game(world, commandParser, io);
+        new CliGame(game, io, io).run();
     }
 }

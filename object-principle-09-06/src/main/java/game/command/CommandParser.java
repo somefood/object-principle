@@ -1,13 +1,13 @@
 package game.command;
 
-import game.InputOutput;
+import game.Output;
 import game.world.worldmap.Direction;
 
 public class CommandParser {
-    private InputOutput io;
+    private Output output;
 
-    public CommandParser(InputOutput io) {
-        this.io = io;
+    public CommandParser(Output output) {
+        this.output = output;
     }
 
     public Command parseCommand(String input) {

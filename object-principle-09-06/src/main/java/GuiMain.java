@@ -1,3 +1,4 @@
+import game.Game;
 import game.GuiGame;
 import game.command.CommandParser;
 import game.world.World;
@@ -11,8 +12,8 @@ import game.world.worldmap.WorldMap;
 
 public class GuiMain {
     public static void main(String[] args) {
-        GuiGame game = new GuiGame();
-        CommandParser commandParser = new CommandParser(game);
+        GuiGame guiGame = new GuiGame();
+        CommandParser commandParser = new CommandParser(guiGame);
         World world = new World(
                 new Player(
                         new WorldMap(
@@ -23,9 +24,9 @@ public class GuiMain {
                                 new Room(Position.of(0, 2), "언덕", "저 멀리 성이 보이고 언덕 아래로 좁은 길이 나 있습니다."),
                                 new Room(Position.of(1, 2), "동굴", "어둠에 잠긴 동굴 안에 작은 화톳불이 피어 있습니다.", new Inventory(new Item("gem")))),
                         Position.of(0, 2)),
-                game);
+                guiGame);
 
-        game.initialize(world, commandParser);
-        game.run();
+        Game game = new Game(world, commandParser, guiGame);
+        guiGame.run(game);
     }
 }
