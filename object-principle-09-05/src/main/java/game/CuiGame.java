@@ -4,13 +4,13 @@ import game.command.Command;
 import game.command.CommandParser;
 import game.world.World;
 
-public class Game {
+public class CuiGame {
     private World world;
     private CommandParser commandParser;
     private InputOutput io;
     private boolean running;
 
-    public Game(World world, CommandParser commandParser, InputOutput io) {
+    public CuiGame(World world, CommandParser commandParser, InputOutput io) {
         this.world = world;
         this.commandParser = commandParser;
         this.io = io;

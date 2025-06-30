@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GameTest {
+public class CuiGameTest {
     @Test
     public void contains_welcome() {
         FakeInputOutput io = new FakeInputOutput("quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "환영합니다!",
@@ -34,8 +34,8 @@ public class GameTest {
     public void move_north_passed() {
         FakeInputOutput io = new FakeInputOutput("go north", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -49,8 +49,8 @@ public class GameTest {
     public void move_north_blocked() {
         FakeInputOutput io = new FakeInputOutput("go north", "go north", "go north", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -67,8 +67,8 @@ public class GameTest {
     public void move_east_passed() {
         FakeInputOutput io = new FakeInputOutput("go east", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [동굴]에 있습니다.",
@@ -82,8 +82,8 @@ public class GameTest {
     public void move_east_blocked() {
         FakeInputOutput io = new FakeInputOutput("go east", "go east", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [동굴]에 있습니다.",
@@ -98,8 +98,8 @@ public class GameTest {
     public void move_south_passed() {
         FakeInputOutput io = new FakeInputOutput("go north", "go south", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -115,8 +115,8 @@ public class GameTest {
     public void move_south_blocked() {
         FakeInputOutput io = new FakeInputOutput("go south", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
 
         assertThat(io.outputs()).containsSequence(
@@ -129,8 +129,8 @@ public class GameTest {
     public void move_west_passed() {
         FakeInputOutput io = new FakeInputOutput("go east", "go west", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [동굴]에 있습니다.",
@@ -146,8 +146,8 @@ public class GameTest {
     public void move_west_blocked() {
         FakeInputOutput io = new FakeInputOutput("go west", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 이동할 수 없습니다.",
@@ -159,8 +159,8 @@ public class GameTest {
     public void move_empty() {
         FakeInputOutput io = new FakeInputOutput("go north", "go north", "go east", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -177,8 +177,8 @@ public class GameTest {
     public void take() {
         FakeInputOutput io = new FakeInputOutput("go north", "take sword", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -194,8 +194,8 @@ public class GameTest {
     public void drop() {
         FakeInputOutput io = new FakeInputOutput("drop key", "look", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> key을(를) 버렸습니다.",
@@ -210,8 +210,8 @@ public class GameTest {
     public void destroy() {
         FakeInputOutput io = new FakeInputOutput("go north", "destroy sword", "look", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -228,8 +228,8 @@ public class GameTest {
     public void throw_item() {
         FakeInputOutput io = new FakeInputOutput("go north", "take sword", "throw sword", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 당신은 [다리]에 있습니다.",
@@ -245,14 +245,14 @@ public class GameTest {
     public void inventory() {
         FakeInputOutput io = new FakeInputOutput("inventory", "quit");
 
-        Game game = createGame(io);
-        game.run();
+        CuiGame cuiGame = createGame(io);
+        cuiGame.run();
 
         assertThat(io.outputs()).containsSequence(
                 "> 인벤토리 목록: [ key ]");
     }
 
-    private Game createGame(FakeInputOutput io) {
+    private CuiGame createGame(FakeInputOutput io) {
         World world = new World(
                 new Player(
                         new WorldMap(
@@ -267,7 +267,7 @@ public class GameTest {
                 io);
         CommandParser commandParser = new CommandParser(io);
 
-        return new Game(world, commandParser, io);
+        return new CuiGame(world, commandParser, io);
     }
 }
 

@@ -1,5 +1,5 @@
 import console.Console;
-import game.Game;
+import game.CuiGame;
 import game.InputOutput;
 import game.world.World;
 import game.command.CommandParser;
@@ -11,7 +11,7 @@ import game.world.worldmap.Room;
 import game.world.worldmap.Size;
 import game.world.worldmap.WorldMap;
 
-public class Main {
+public class CuiMain {
     public static void main(String[] args) {
         InputOutput io = new Console();
         CommandParser commandParser = new CommandParser(io);
@@ -27,7 +27,7 @@ public class Main {
                         Position.of(0, 2)),
                 io);
 
-        Game game = new Game(world, commandParser, io);
+        CuiGame game = new CuiGame(world, commandParser, io);
         game.run();
     }
 }
