@@ -1,12 +1,9 @@
 package game.worldmap;
 
-import game.item.Carrier;
 import game.item.Item;
+import game.item.Target;
 
-import java.util.List;
-import java.util.Optional;
-
-public class WorldMap implements Carrier {
+public class WorldMap implements Target {
     private Size size;
     private Room[] rooms;
 
@@ -37,19 +34,5 @@ public class WorldMap implements Carrier {
             return;
         }
         roomAt(position).add(item);
-    }
-
-    @Override
-    public List<Item> items() {
-        return List.of();
-    }
-
-    @Override
-    public Optional<Item> find(String itemName) {
-        return Optional.empty();
-    }
-
-    @Override
-    public void remove(Item item) {
     }
 }

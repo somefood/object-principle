@@ -41,4 +41,8 @@ public class Player extends ForwardingCarrier {
     public Room currentRoom() {
         return worldMap.roomAt(position);
     }
+
+    public WorldMap worldMap() {
+        return worldMap;
+    }
 }

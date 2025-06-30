@@ -1,13 +1,14 @@
 package game;
 
-import game.item.Carrier;
+import game.item.Source;
+import game.item.Target;
 
 public class Transfer {
-    private Carrier source;
-    private Carrier target;
+    private Source source;
+    private Target target;
     private String itemName;
 
-    public Transfer(Carrier source, Carrier target, String itemName) {
+    public Transfer(Source source, Target target, String itemName) {
         this.source = source;
         this.target = target;
         this.itemName = itemName;

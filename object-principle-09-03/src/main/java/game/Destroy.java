@@ -1,16 +1,16 @@
 package game;
 
-import game.item.Carrier;
 import game.item.Item;
+import game.item.Source;
 
 import java.util.Random;
 
 public class Destroy {
-    private Carrier first;
-    private Carrier second;
+    private Source first;
+    private Source second;
     private String itemName;
 
-    public Destroy(Carrier first, Carrier second, String itemName) {
+    public Destroy(Source first, Source second, String itemName) {
         this.first = first;
         this.second = second;
         this.itemName = itemName;
@@ -42,7 +42,7 @@ public class Destroy {
         }
     }
 
-    private boolean contains(Carrier carrier) {
+    private boolean contains(Source carrier) {
         return carrier.find(itemName).isPresent();
     }
 }

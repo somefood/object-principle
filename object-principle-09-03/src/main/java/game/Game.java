@@ -4,6 +4,8 @@ import game.command.Command;
 import game.command.CommandParser;
 import game.item.Carrier;
 import game.item.Item;
+import game.item.Source;
+import game.item.Target;
 import game.player.Player;
 import game.worldmap.Direction;
 
@@ -88,9 +90,7 @@ public class Game {
         io.showLine("당신은 [" + player.currentRoom().name() + "]에 있습니다.");
         io.showLine(player.currentRoom().description());
         if (!player.currentRoom().items().isEmpty()) {
-            io.showLine(player.currentRoom().items().stream()
-                    .map(Item::name)
-                    .collect(Collectors.joining(", ", "아이템: [ ", " ]")));
+            showItems(player.currentRoom(), "아이템:");
         }
     }
 
@@ -141,7 +141,7 @@ public class Game {
                 itemName + "을(를) 던질 수 없습니다.");
     }
 
-    private void transfer(Carrier source, Carrier target,
+    private void transfer(Source source, Target target,
                           String itemName, String success, String fail) {
         Transfer transfer = new Transfer(source, target, itemName);
 
@@ -155,10 +155,7 @@ public class Game {
     }
 
     private void showInventory() {
-        io.showLine(
-                player.items().stream()
-                        .map(Item::name)
-                        .collect(Collectors.joining(", ", "인벤토리 목록: [ ", " ]")));
+        showItems(player, "인벤토리 목록:");
     }
 
     private void destroyItem(String itemName) {
@@ -170,5 +167,12 @@ public class Game {
         }
 
         io.showLine(itemName + "을(를) 파괴할 수 없습니다.");
+    }
+
+    private void showItems(Carrier carrier, String title) {
+        io.showLine(
+                carrier.items().stream()
+                        .map(Item::name)
+                        .collect(Collectors.joining(", ", title + " [ ", " ]")));
     }
 }
