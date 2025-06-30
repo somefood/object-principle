@@ -1,6 +1,12 @@
 package game.worldmap;
 
-public class WorldMap {
+import game.item.Carrier;
+import game.item.Item;
+
+import java.util.List;
+import java.util.Optional;
+
+public class WorldMap implements Carrier {
     private Size size;
     private Room[] rooms;
 
@@ -22,5 +28,28 @@ public class WorldMap {
 
     public Room roomAt(Position position) {
         return rooms[size.indexOf(position)];
+    }
+
+    @Override
+    public void add(Item item) {
+        Position position = size.anyPosition();
+        if (isBlocked(position)) {
+            return;
+        }
+        roomAt(position).add(item);
+    }
+
+    @Override
+    public List<Item> items() {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Item> find(String itemName) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void remove(Item item) {
     }
 }

@@ -1,5 +1,7 @@
 package game.worldmap;
 
+import java.util.Random;
+
 public class Size {
     private int width, height;
 
@@ -23,5 +25,10 @@ public class Size {
 
     public int area() {
         return width * height;
+    }
+
+    public Position anyPosition() {
+        Random random = new Random();
+        return Position.of(random.nextInt(width), random.nextInt(height));
     }
 }

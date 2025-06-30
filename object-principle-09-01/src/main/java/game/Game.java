@@ -65,6 +65,8 @@ public class Game {
             case Command.Inventory() -> showInventory();
             case Command.Take take -> takeItem(take.item());
             case Command.Drop drop -> dropItem(drop.item());
+            case Command.Destroy destroy -> destroyItem(destroy.item());
+            case Command.Throw aThrow -> throwItem(aThrow.item());
         }
     }
 
@@ -133,11 +135,18 @@ public class Game {
                 itemName + "을(를) 버릴 수 없습니다.");
     }
 
+    private void throwItem(String itemName) {
+        transfer(player, player.worldMap(), itemName,
+                itemName + "을(를) 어딘가로 던졌습니다.",
+                itemName + "을(를) 던질 수 없습니다.");
+    }
+
     private void transfer(Carrier source, Carrier target,
                           String itemName, String success, String fail) {
         Transfer transfer = new Transfer(source, target, itemName);
+
         if (transfer.isPossible()) {
-            transfer.transfer();
+            transfer.perform();
             io.showLine(success);
             return;
         }
@@ -150,5 +159,16 @@ public class Game {
                 player.items().stream()
                         .map(Item::name)
                         .collect(Collectors.joining(", ", "인벤토리 목록: [ ", " ]")));
+    }
+
+    private void destroyItem(String itemName) {
+        Destroy destroy = new Destroy(player, player.currentRoom(), itemName);
+        if (destroy.isPossible()) {
+            destroy.perform();
+            io.showLine(itemName + "을(를) 파괴했습니다.");
+            return;
+        }
+
+        io.showLine(itemName + "을(를) 파괴할 수 없습니다.");
     }
 }
