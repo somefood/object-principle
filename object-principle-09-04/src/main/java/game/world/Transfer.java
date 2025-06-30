@@ -1,7 +1,7 @@
-package game;
+package game.world;
 
-import game.item.Source;
-import game.item.Target;
+import game.world.item.Source;
+import game.world.item.Target;
 
 public class Transfer {
     private Source source;

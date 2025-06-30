@@ -1,8 +1,15 @@
 package game.command;
 
-import game.worldmap.Direction;
+import game.InputOutput;
+import game.world.worldmap.Direction;
 
 public class CommandParser {
+    private InputOutput io;
+
+    public CommandParser(InputOutput io) {
+        this.io = io;
+    }
+
     public Command parseCommand(String input) {
         return parseCommand(split(input));
     }
@@ -31,5 +38,18 @@ public class CommandParser {
 
     private String[] split(String input) {
         return input.toLowerCase().trim().split("\\s+");
+    }
+
+    public String help() {
+        return "다음 명령어를 사용할 수 있습니다.\n" +
+                "go {north|east|south|west} - 이동" +
+                ", look - 보기" +
+                ", inventory - 인벤토리" +
+                ", take {item} - 줍기" +
+                ", drop {item} - 버리기" +
+                ", destroy {item} - 파괴하기" +
+                ", throw {item} - 던지기" +
+                ", help - 도움말" +
+                ", quit - 게임 종료";
     }
 }

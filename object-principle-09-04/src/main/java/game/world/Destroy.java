@@ -1,7 +1,7 @@
-package game;
+package game.world;
 
-import game.item.Item;
-import game.item.Source;
+import game.world.item.Item;
+import game.world.item.Source;
 
 import java.util.Random;
 

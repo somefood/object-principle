@@ -1,8 +1,8 @@
-package game.worldmap;
+package game.world.worldmap;
 
-import game.item.Carrier;
-import game.item.ForwardingCarrier;
-import game.item.Inventory;
+import game.world.item.Carrier;
+import game.world.item.ForwardingCarrier;
+import game.world.item.Inventory;
 
 public class Room extends ForwardingCarrier {
     private String name;

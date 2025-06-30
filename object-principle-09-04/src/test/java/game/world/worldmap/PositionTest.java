@@ -1,5 +1,7 @@
-package game.worldmap;
+package game.world.worldmap;
 
+import game.world.worldmap.Direction;
+import game.world.worldmap.Position;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

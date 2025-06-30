@@ -1,7 +1,7 @@
-package game.worldmap;
+package game.world.worldmap;
 
-import game.item.Item;
-import game.item.Target;
+import game.world.item.Item;
+import game.world.item.Target;
 
 public class WorldMap implements Target {
     private Size size;

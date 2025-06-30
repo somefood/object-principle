@@ -1,12 +1,12 @@
-package game.player;
+package game.world.player;
 
-import game.item.Carrier;
-import game.item.ForwardingCarrier;
-import game.item.Inventory;
-import game.worldmap.Direction;
-import game.worldmap.Position;
-import game.worldmap.Room;
-import game.worldmap.WorldMap;
+import game.world.item.Carrier;
+import game.world.item.ForwardingCarrier;
+import game.world.item.Inventory;
+import game.world.worldmap.Direction;
+import game.world.worldmap.Position;
+import game.world.worldmap.Room;
+import game.world.worldmap.WorldMap;
 
 public class Player extends ForwardingCarrier {
     private WorldMap worldMap;

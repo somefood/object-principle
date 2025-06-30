@@ -1,8 +1,9 @@
-package game.player;
+package game.world.player;
 
-import game.item.Inventory;
-import game.item.Item;
-import game.worldmap.*;
+import game.world.item.Inventory;
+import game.world.item.Item;
+import game.world.player.Player;
+import game.world.worldmap.*;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

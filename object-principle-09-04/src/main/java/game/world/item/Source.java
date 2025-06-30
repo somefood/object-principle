@@ -1,4 +1,4 @@
-package game.item;
+package game.world.item;
 
 import java.util.Optional;
 

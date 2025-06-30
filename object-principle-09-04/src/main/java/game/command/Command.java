@@ -1,6 +1,6 @@
 package game.command;
 
-import game.worldmap.Direction;
+import game.world.worldmap.Direction;
 
 public sealed interface Command {
     record Move(Direction direction) implements Command {}

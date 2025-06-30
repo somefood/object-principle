@@ -1,4 +1,6 @@
-package game;
+package game.world;
+
+import game.InputOutput;
 
 import java.util.Arrays;
 import java.util.List;

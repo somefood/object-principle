@@ -1,5 +1,9 @@
-package game.worldmap;
+package game.world.worldmap;
 
+import game.world.worldmap.Position;
+import game.world.worldmap.Room;
+import game.world.worldmap.Size;
+import game.world.worldmap.WorldMap;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
